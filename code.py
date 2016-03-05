@@ -36,7 +36,8 @@ def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/12):
     while len(segments) > 0:
 
         # pick a totally arbitrary reference segment
-        referenceSegment = segments.pop()
+        referenceSegment = segments[0]
+        segments.remove(0)
         matches = [referenceSegment]
         # first sweep (filter just by angle)
         angle = getAngle(referenceSegment)
