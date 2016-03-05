@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 import math
+from code import testPlot, getSegmentsWithMatchingAngleAndPos, constructPolyline
 
 
 def houghT(input_img, run_img, img_edges, h_array):
@@ -11,25 +12,35 @@ def houghT(input_img, run_img, img_edges, h_array):
 	else:
 		#[r,c] = input_img.shape()
 		print("LINES SIZE", h_lines.shape)
-		print(str(h_lines))
+		#print(str(h_lines))
 
-	for x1,y1,x2,y2 in h_lines[0]:
+	h_lines = removeHoriz(h_lines)
+	h_lines = makeLines(h_lines)
+	for x1,y1,x2,y2 in h_lines:
 	    cv2.line(h_array,(x1,y1),(x2,y2),(0,255,0),2)
 
 	cv2.imwrite('houghlines3.jpg',h_array)
 	return h_lines
 
 
-def removeHoriz(h_lines):
+def removeHoriz(houghL):
+	h_lines = houghL[0]
 	length = len(h_lines)
-	xHalf = 2048/2  #change 2048 to image size dimensions
+	print("SHAPEEE")
+	print(h_lines.shape)
+	good_lines = []
+	#xHalf = 2048/2  #change 2048 to image size dimensions
+
 	for i in range(0,length):
-		currSeg = h_lines[i];
+		currSeg = h_lines[i]
+		print("YOOOOO")
+		print(str(currSeg))
 		currAngle = getAngle(currSeg[0], currSeg[1], currSeg[2], currSeg[3])
 		currDist = math.sqrt(math.pow((currSeg[2] - currSeg[0]) , 2) + math.pow((currSeg[2] - currSeg[0]), 2))
-		if (math.fabs(currAngle) < pi/12):
-			np.delete(h_lines, i)
-	return h_lines
+		print("CURR ANGLE", str(currAngle))
+		if (abs(currAngle) > np.pi/12):
+			good_lines.append(h_lines[i])
+	return np.array(good_lines)
 
 
 def getAngle(x1, y1, x2, y2):
@@ -37,34 +48,42 @@ def getAngle(x1, y1, x2, y2):
  ydiff = y2 - y1
  return math.atan(ydiff/xdiff)
 
- def displayIMG(input_img, img_edges, output_img_h):
+def makeLines(h_lines):
+	lines_segments = getSegmentsWithMatchingAngleAndPos(h_lines)
+	ls_length = len(lines_segments)
+	final_lines = []
+	for row in lines_segments:
+		final_lines.append(constructPolyline(row))
+	return np.array(final_lines)
 
-	 input_fig = plt.figure(1)
-	 #plt.subplot(221)
-	 plt.imshow(input_img,cmap = 'gray')
-	 plt.title('Original Image')
-	 plt.xticks([]), plt.yticks([])
-	 input_fig.show()
+def displayIMG(input_img, img_edges, output_img_h):
 
-	 edge_fig = plt.figure(2)
-	 #plt.subplot(222)
-	 plt.imshow(img_edges,cmap = 'gray')
-	 plt.title('Edge Image')
-	 plt.xticks([]), plt.yticks([])
-	 edge_fig.show()
+ input_fig = plt.figure(1)
+ #plt.subplot(221)
+ plt.imshow(input_img,cmap = 'gray')
+ plt.title('Original Image')
+ plt.xticks([]), plt.yticks([])
+ input_fig.show()
 
-	 #plt.subplot(223)
-	 h_fig = plt.figure(3)
-	 plt.imshow(output_img_h, cmap = 'gray')
-	 plt.title('Hough Lines Image')
-	 plt.xticks([]), plt.yticks([])
-	 h_fig.show()
+ edge_fig = plt.figure(2)
+ #plt.subplot(222)
+ plt.imshow(img_edges,cmap = 'gray')
+ plt.title('Edge Image')
+ plt.xticks([]), plt.yticks([])
+ edge_fig.show()
 
-	 # KEEP IMAGES OPEN
-	 print("Press any character and enter to close")
-	 raw_input()
+ #plt.subplot(223)
+ h_fig = plt.figure(3)
+ plt.imshow(output_img_h, cmap = 'gray')
+ plt.title('Hough Lines Image')
+ plt.xticks([]), plt.yticks([])
+ h_fig.show()
 
-	 return 0
+ # KEEP IMAGES OPEN
+ print("Press any character and enter to close")
+ raw_input()
+
+ return 0
 
 def polyLineMatch():
 # for each image in the folder, read it in and pass it to houghT
@@ -90,5 +109,6 @@ def polyLineMatch():
 	output_img_h = cv2.imread('houghlines3.jpg', 0)
 	d = displayIMG(input_img, img_edges, output_img_h)
 	return 0
+
 if __name__ == "__main__":
     polyLineMatch()
