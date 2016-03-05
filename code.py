@@ -28,24 +28,32 @@ def getAngle(x1, y1, x2, y2):
     ydiff = y2 - y1
     return math.atan(ydiff/xdiff)
 
-# given initial segment and list of segments, returns a subset of that list with angles close to
-# initial segment AND a position that makes sense
-def getSegmentsWithMatchingAngleAndPos(initialSeg, segments, tolerance = math.pi/12):
+# given list of segments, returns a list of lists of matching segments
+def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/12):
 
-    # first sweep (filter just by angle)
-    matches = []
-    angle = getAngle(initialSeg)
-    for segment in segments:
-        a = getAngle(segment)
-        if abs(a-angle) < tolerance:
-            # second sweep (check angles of both endpoints of candidate segment compared to initial segment,
-            # takes position into account)
-            angle1 = getAngle(initialSeg[0], initialSeg[1], segment[0], segment[1])
-            angle2 = getAngle(initialSeg[0], initialSeg[1], segment[2], segment[3])
-            if abs(angle1-angle) < tolerance and abs(angle2-angle) < tolerance:
-                matches.append(segment)
+    matchLists = []
 
-    return matches
+    while len(segments) > 0:
+
+        # pick a totally arbitrary reference segment
+        referenceSegment = segments.pop()
+        matches = [referenceSegment]
+        # first sweep (filter just by angle)
+        angle = getAngle(referenceSegment)
+        for segment in segments:
+            a = getAngle(segment)
+            if abs(a-angle) < tolerance:
+                # second sweep (check angles of both endpoints of candidate segment compared to initial segment,
+                # takes position into account)
+                angle1 = getAngle(referenceSegment[0], referenceSegment[1], segment[0], segment[1])
+                angle2 = getAngle(referenceSegment[0], referenceSegment[1], segment[2], segment[3])
+                if abs(angle1-angle) < tolerance and abs(angle2-angle) < tolerance:
+                    matches.append(segment)
+                    segments.remove(segment)
+
+        matchLists.append[matches]
+
+    return matchLists
 
 
 # takes an array of segments (x1, y1, x2, y2) that are already
