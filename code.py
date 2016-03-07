@@ -27,9 +27,10 @@ def getAngle(x1, y1, x2, y2):
     xdiff = x2 - x1
     ydiff = y2 - y1
     return math.atan(ydiff/xdiff)
+    
 
 # given list of segments, returns a list of lists of matching segments
-def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/12):
+def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/360):
 
     matchLists = []
 
@@ -37,12 +38,17 @@ def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/12):
 
         # pick a totally arbitrary reference segment
         referenceSegment = segments[0]
-        segments.remove(0)
+        # print segments
+        segments = np.delete(segments,0,0)
         matches = [referenceSegment]
         # first sweep (filter just by angle)
-        angle = getAngle(referenceSegment)
+        angle = getAngle(referenceSegment[0],referenceSegment[1],referenceSegment[2],referenceSegment[3])
+        # print len(segments)
+        # print segments
         for segment in segments:
-            a = getAngle(segment)
+            # print len(segments)
+            # print segment
+            a = getAngle(segment[0],segment[1],segment[2],segment[3])
             if abs(a-angle) < tolerance:
                 # second sweep (check angles of both endpoints of candidate segment compared to initial segment,
                 # takes position into account)
@@ -50,9 +56,9 @@ def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/12):
                 angle2 = getAngle(referenceSegment[0], referenceSegment[1], segment[2], segment[3])
                 if abs(angle1-angle) < tolerance and abs(angle2-angle) < tolerance:
                     matches.append(segment)
-                    segments.remove(segment)
+                    segments = np.delete(segments,segment,0)
 
-        matchLists.append[matches]
+        matchLists.append(matches)
 
     return matchLists
 
