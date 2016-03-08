@@ -5,7 +5,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 import math
-from classProject import testPlot, getSegmentsWithMatchingAngleAndPos, constructPolyline, sortSegmentsByX
+from classProject import testPlot, getSegmentsWithMatchingAngleAndPos, constructPolyline, sortSegmentsByX, getAngle
 
 
 def houghT(input_img, run_img, img_edges, h_array):
@@ -46,11 +46,6 @@ def removeHoriz(houghL):
 			good_lines.append(h_lines[i])
 	return np.array(good_lines)
 
-
-def getAngle(x1, y1, x2, y2):
-	xdiff = x2 - x1
-	ydiff = y2 - y1
-	return math.atan(float(ydiff)/xdiff)
 
 def makeLines(h_lines):
     lines_segments = getSegmentsWithMatchingAngleAndPos(h_lines)
