@@ -30,7 +30,7 @@ def getAngle(x1, y1, x2, y2):
     if xdiff == 0:
         return math.pi/2
     return math.atan(float(ydiff)/float(xdiff))
-    
+
 
 # given list of segments, returns a list of lists of matching segments
 def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/72):
@@ -65,8 +65,7 @@ def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/72):
 
         matchLists.append(np.array(matches))
 
-    print "\n\nMatched segment lists:"
-    print np.array(matchLists)
+    #print np.array(matchLists)
 
     return np.array(matchLists)
 

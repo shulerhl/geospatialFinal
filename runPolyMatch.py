@@ -18,18 +18,33 @@ def runPM():
     #print("LENGTH")
     #print(str(im_len))
     i = 0
+    polyLines = []
     for image in images:
 
         in_img = cv2.imread(image, 0)
         r_img = cv2.imread(image, 0)
 
-        #polyLineMatch(in_img, r_img)
-
+        currLine = polyLineMatch(in_img, r_img)
+        polyLines.append(currLine)
+        #writeCSV(currLine)
         print("COMPLETED THE", str(i), "IMAGE")
         i+= 1
-
+    writeCSV(polyLines)
     print("done")
 
+def writeCSV(pl, filename = "PolyLinesGeoFinal.csv"):
+
+    f = open(filename, 'w')
+    for image in pl:
+        f.write("  ".join("NEW IMAGE") + "\n")
+        for line in image:
+            p = line
+            p = [str(item) for item in p]
+
+            f.write(",".join(p) + "\n")
+
+    f.close()
+    return 0
 
 if __name__ == "__main__":
     runPM()

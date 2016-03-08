@@ -15,7 +15,7 @@ def houghT(input_img, run_img, img_edges, h_array):
 	else:
 		#[r,c] = input_img.shape()
 		print("LINES SIZE", h_lines.shape)
-		print(str(h_lines))
+		#print(str(h_lines))
 
 	h_lines = removeHoriz(h_lines)
 	h_lines = makeLines(h_lines)
@@ -23,7 +23,7 @@ def houghT(input_img, run_img, img_edges, h_array):
 	for h in h_lines:
 		for x1,y1,x2,y2 in h:
 		    cv2.line(h_array,(x1,y1),(x2,y2),(0,255,0),2)
-	
+
 	cv2.imwrite('houghlines3.jpg', h_array)
 	return h_lines
 
@@ -38,12 +38,12 @@ def removeHoriz(houghL):
 
 	for i in range(0,length):
 		currSeg = h_lines[i]
-		print("YOOOOO")
-		print(str(currSeg))
+		# print("YOOOOO")
+		# print(str(currSeg))
 		currAngle = getAngle(currSeg[0], currSeg[1], currSeg[2], currSeg[3])
 		currDist = math.sqrt(math.pow((currSeg[2] - currSeg[0]) , 2) + math.pow((currSeg[2] - currSeg[0]), 2))
-		print("CURR ANGLE", str(currAngle))
-		if (abs(currAngle) > math.pi/12):
+		# print("CURR ANGLE", str(currAngle))
+		if (abs(currAngle) > math.pi/8):
 			good_lines.append(h_lines[i])
 	return np.array(good_lines)
 
@@ -128,8 +128,12 @@ def polyLineMatch(input_img, run_img):
     # th, output_img_h = cv2.threshold(output_img_h,250,255,cv2.THRESH_BINARY)
     output_img_h = cv2.dilate(output_img_h, kernel)
     # output_img_h = np.array(output_img_h, dtype=np.uint8)
-    d = displayIMG(input_img, img_edges2, output_img_h)
-    return 0
+    #d = displayIMG(input_img, img_edges2, output_img_h)
+    # print ("DONEEE")
+    # print hough_lines[0]
+    # print hough_lines[0].shape
+    # print ("DONEEE222222222")
+    return hough_lines
 
 
 if __name__ == "__main__":
