@@ -88,10 +88,10 @@ def displayIMG(input_img, img_edges, output_img_h):
 
  return 0
 
-def polyLineMatch():
+def polyLineMatch(input_img, run_img):
 # for each image in the folder, read it in and pass it to houghT
-	input_img = cv2.imread('cube/7360.jpg', 0)
-	run_img = cv2.imread('cube/7360.jpg', 0)
+	# input_img = cv2.imread('cube/7360.jpg', 0)
+	# run_img = cv2.imread('cube/7360.jpg', 0)
 	h_array = np.ones((2048, 2048))
 
 	if input_img.size == 0:
