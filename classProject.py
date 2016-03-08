@@ -1,5 +1,6 @@
 __author__ = 'Misha Kushnir'
-
+import sys
+sys.path.append('/usr/local/lib/python2.7/site-packages')
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
@@ -76,7 +77,7 @@ def constructPolyline(segments):
             i += 1
         else: # insert connecting segment
             segment = [first[2], first[3], next[0], next[1]]
-            segments.insert(i+1, segment)
+            segments = np.insert(segments,i+1, segment,0)
             i += 1
 
     return segments

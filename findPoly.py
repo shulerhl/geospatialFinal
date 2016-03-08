@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 import math
-from classProject import testPlot, getSegmentsWithMatchingAngleAndPos, constructPolyline
+from classProject import testPlot, getSegmentsWithMatchingAngleAndPos, constructPolyline, sortSegmentsByX
 
 
 def houghT(input_img, run_img, img_edges, h_array):
@@ -54,8 +54,13 @@ def getAngle(x1, y1, x2, y2):
 def makeLines(h_lines):
 	lines_segments = getSegmentsWithMatchingAngleAndPos(h_lines)
 	ls_length = len(lines_segments)
+	sorted_segments = []
+	for segment_group in lines_segments:
+		sorted_group = sortSegmentsByX(segment_group)
+		sorted_segments.append(sorted_group)
+	# print ls_length, len(sorted_segments)
 	final_lines = []
-	for row in lines_segments:
+	for row in sorted_segments:
 		final_lines.append(constructPolyline(row))
 	return np.array(final_lines)
 
@@ -123,7 +128,7 @@ def polyLineMatch(input_img, run_img):
 	# hough_lines = houghT(input_img, run_img, img_edges, h_array)
 	output_img_h = cv2.imread('houghlines3.jpg', 0)
 	# output_img_h = scipy.ndimage.morphology.binary_dilation(output_img_h, iterations=2)
-	print abs(output_img_h - 1)
+	# print abs(output_img_h - 1)
 	kernel = np.ones((2,2),'uint8')
 	output_img_h = abs(output_img_h - 1)
 	# th, output_img_h = cv2.threshold(output_img_h,250,255,cv2.THRESH_BINARY)
@@ -133,4 +138,6 @@ def polyLineMatch(input_img, run_img):
 	return 0
 
 if __name__ == "__main__":
-    polyLineMatch()
+	input_img = cv2.imread('cube/7360.jpg', 0)
+	run_img = cv2.imread('cube/7360.jpg', 0)
+	polyLineMatch(input_img,run_img)
