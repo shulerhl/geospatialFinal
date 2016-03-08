@@ -11,7 +11,7 @@ from test import polyLineMatch
 
 def runPM():
     curr_dir = os.getcwd()
-    dir_jpg = str(curr_dir) + '/*.jpg'
+    dir_jpg = str(curr_dir) + '/cube/*.jpg'
     #print(str(dir_jpg))
     images = glob.glob(dir_jpg)
     im_len = len(images)
