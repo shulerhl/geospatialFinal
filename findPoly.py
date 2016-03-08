@@ -23,6 +23,7 @@ def houghT(input_img, run_img, img_edges, h_array):
 	for h in h_lines:
 		for x1,y1,x2,y2 in h:
 		    cv2.line(h_array,(x1,y1),(x2,y2),(0,255,0),2)
+	
 	cv2.imwrite('houghlines3.jpg', h_array)
 	return h_lines
 
