@@ -33,7 +33,7 @@ def getAngle(x1, y1, x2, y2):
     
 
 # given list of segments, returns a list of lists of matching segments
-def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/36):
+def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/72):
 
     matchLists = []
 
@@ -65,6 +65,9 @@ def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/36):
 
         matchLists.append(np.array(matches))
 
+    print "\n\nMatched segment lists:"
+    print np.array(matchLists)
+
     return np.array(matchLists)
 
 
@@ -79,9 +82,13 @@ def constructPolyline(segments):
         if first[2] == next[0] and first[3] == next[1]: # x2, y2 from first and x1, y1 from next
             # do nothing, these two segments are already connected
             i += 1
-        else: # insert connecting segment
-            segment = [first[2], first[3], next[0], next[1]]
-            segments = np.insert(segments,i+1, segment,0)
+        else:
+            # insert connecting segment
+            #segment = [first[2], first[3], next[0], next[1]]
+            #segments = np.insert(segments,i+1, segment,0)
+
+            # modify endpoints of existing segments to line up
+            segments[i] = np.array([first[0], first[1], next[0], next[1]])
             i += 1
 
     return segments
@@ -92,21 +99,21 @@ def sortSegmentsByX(segments):
 
     length = len(segments)
 
-    print "Length: " + str(length)
+    #print "Length: " + str(length)
 
     if length == 1:
         return segments
     else:
         pivot = length/2
-        print "Pivot: " + str(pivot)
+        #print "Pivot: " + str(pivot)
 
         left = sortSegmentsByX(segments[0:pivot])
         right = sortSegmentsByX(segments[pivot:length])
 
         sorted = []
 
-        print "Left: " + str(left)
-        print "Right: " + str(right)
+        #print "Left: " + str(left)
+        #print "Right: " + str(right)
 
         while len(left) > 0 or len(right) > 0:
             if len(left) == 0:
