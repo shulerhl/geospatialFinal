@@ -16,8 +16,8 @@ def houghT(input_img, run_img, img_edges, h_array):
 		print("LINES SIZE", h_lines.shape)
 		print(str(h_lines))
 
-	# h_lines = removeHoriz(h_lines)
-	# h_lines = makeLines(h_lines)
+	h_lines = removeHoriz(h_lines)
+	h_lines = makeLines(h_lines)
 	# print h_lines
 	for x1,y1,x2,y2 in h_lines[0]:
 	    cv2.line(h_array,(x1,y1),(x2,y2),(0,255,0),2)
@@ -108,7 +108,7 @@ def polyLineMatch():
 	# input_img = scipy.ndimage.morphology.binary_dilation(input_img)
 	# input_img = np.array(input_img, dtype=np.uint8)
 	# edge detection
-	img_edges = cv2.Canny(run_img, 100, 250, 5 )
+	img_edges = cv2.Canny(run_img, 100, 250, 5)
 	if img_edges.size == 0:
 		print("Canny found no edges")
 	else:

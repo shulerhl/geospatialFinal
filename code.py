@@ -30,7 +30,7 @@ def getAngle(x1, y1, x2, y2):
     
 
 # given list of segments, returns a list of lists of matching segments
-def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/360):
+def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/36):
 
     matchLists = []
 
