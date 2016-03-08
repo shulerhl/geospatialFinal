@@ -27,6 +27,8 @@ def testPlot(path):
 def getAngle(x1, y1, x2, y2):
     xdiff = x2 - x1
     ydiff = y2 - y1
+    if xdiff == 0:
+        return math.pi/2
     return math.atan(float(ydiff)/float(xdiff))
     
 
