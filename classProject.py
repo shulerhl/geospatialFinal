@@ -1,6 +1,6 @@
 __author__ = 'Misha Kushnir'
 import sys
-sys.path.append('/usr/local/lib/python2.7/site-packages')
+#sys.path.append('/usr/local/lib/python2.7/site-packages')
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
@@ -27,7 +27,7 @@ def testPlot(path):
 def getAngle(x1, y1, x2, y2):
     xdiff = x2 - x1
     ydiff = y2 - y1
-    return math.atan(ydiff/xdiff)
+    return math.atan(float(ydiff)/float(xdiff))
     
 
 # given list of segments, returns a list of lists of matching segments
@@ -57,11 +57,13 @@ def getSegmentsWithMatchingAngleAndPos(segments, tolerance = math.pi/36):
                 angle2 = getAngle(referenceSegment[0], referenceSegment[1], segment[2], segment[3])
                 if abs(angle1-angle) < tolerance and abs(angle2-angle) < tolerance:
                     matches.append(segment)
-                    segments = np.delete(segments,segment,0)
+                    # remove segment from segments
+                    segments = segments[(segments != segment).any(axis=1)]
+                    #segments = np.delete(segments,np.where(segments==segment),0)
 
-        matchLists.append(matches)
+        matchLists.append(np.array(matches))
 
-    return matchLists
+    return np.array(matchLists)
 
 
 # takes an array of segments (x1, y1, x2, y2) that are already
@@ -133,5 +135,6 @@ if __name__=="__main__":
     #print getAngle(0,0,1,-1)
 
     a = np.array([1,2,3,4,5])
-    segments = np.array([[0,0,1,1], [5,4,3,2], [3,1,2,3], [1,1,2,3], [3,4,5,5]])
-    print "\n\n" + str(sortSegmentsByX(segments))
+    segments = np.array([[0,0,1,1], [1,1,2,2], [0,0,3,5], [0,0,1,0], [0,3,1,2], [2,1,3,0], [4,0,5,0], [9,15,12,20]])
+    print "\n\n"
+    print getSegmentsWithMatchingAngleAndPos(segments)
