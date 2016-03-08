@@ -6,8 +6,8 @@ from matplotlib import pyplot as plt
 import math
 import os
 import glob
-from code import testPlot, getSegmentsWithMatchingAngleAndPos, constructPolyline
-from test import polyLineMatch
+from classProject import testPlot, getSegmentsWithMatchingAngleAndPos, constructPolyline
+from findPoly import polyLineMatch
 
 def runPM():
     curr_dir = os.getcwd()
@@ -23,7 +23,7 @@ def runPM():
         in_img = cv2.imread(image, 0)
         r_img = cv2.imread(image, 0)
 
-        polyLineMatch(in_img, r_img)
+        #polyLineMatch(in_img, r_img)
 
         print("COMPLETED THE", str(i), "IMAGE")
         i+= 1

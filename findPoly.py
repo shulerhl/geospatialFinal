@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 from matplotlib import pyplot as plt
 import math
-from code import testPlot, getSegmentsWithMatchingAngleAndPos, constructPolyline
+from classProject import testPlot, getSegmentsWithMatchingAngleAndPos, constructPolyline
 
 
 def houghT(input_img, run_img, img_edges, h_array):
