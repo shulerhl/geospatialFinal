@@ -81,6 +81,50 @@ def constructPolyline(segments):
 
     return segments
 
+# simple merge sort that sorts a list of segments by the X value of their first point
+# still have to rewrite for np.array
+def sortSegmentsByX(segments):
+
+    length = len(segments)
+
+    print "Length: " + str(length)
+
+    if length == 1:
+        return segments
+    else:
+        pivot = length/2
+        print "Pivot: " + str(pivot)
+
+        left = sortSegmentsByX(segments[0:pivot])
+        right = sortSegmentsByX(segments[pivot:length])
+
+        sorted = []
+
+        print "Left: " + str(left)
+        print "Right: " + str(right)
+
+        while len(left) > 0 or len(right) > 0:
+            if len(left) == 0:
+                firstRight = right[0]
+                sorted.append(firstRight)
+                right.remove(right[0])
+            elif len(right) == 0:
+                firstLeft = left[0]
+                sorted.append(firstLeft)
+                left.remove(left[0])
+            else:
+                firstLeft = left[0]
+                firstRight = right[0]
+
+                if (firstLeft[0] < firstRight[0]):
+                    sorted.append(firstLeft)
+                    left.remove(left[0])
+                else:
+                    sorted.append(firstRight)
+                    right.remove(right[0])
+
+        return sorted
+
 
 if __name__=="__main__":
     #testPlot("../cube/7350.jpg")
