@@ -107,29 +107,30 @@ def sortSegmentsByX(segments):
             if len(left) == 0:
                 firstRight = right[0]
                 sorted.append(firstRight)
-                right.remove(right[0])
+                right = np.delete(right, 0, 0)
             elif len(right) == 0:
                 firstLeft = left[0]
                 sorted.append(firstLeft)
-                left.remove(left[0])
+                left = np.delete(left, 0, 0)
             else:
                 firstLeft = left[0]
                 firstRight = right[0]
 
                 if (firstLeft[0] < firstRight[0]):
                     sorted.append(firstLeft)
-                    left.remove(left[0])
+                    left = np.delete(left, 0, 0)
                 else:
                     sorted.append(firstRight)
-                    right.remove(right[0])
+                    right = np.delete(right, 0, 0)
 
-        return sorted
+        return np.array(sorted)
 
 
 if __name__=="__main__":
     #testPlot("../cube/7350.jpg")
-    print getAngle(0,0,1,2)
-    print getAngle(0,0,1,-1)
+    #print getAngle(0,0,1,2)
+    #print getAngle(0,0,1,-1)
 
-    segments = [[0,0,1,1], [1,1,2,3], [3,4,5,5]]
-    print constructPolyline(segments)
+    a = np.array([1,2,3,4,5])
+    segments = np.array([[0,0,1,1], [5,4,3,2], [3,1,2,3], [1,1,2,3], [3,4,5,5]])
+    print "\n\n" + str(sortSegmentsByX(segments))
